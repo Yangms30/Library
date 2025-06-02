@@ -5,38 +5,31 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Book {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bookId;
+    private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "uploader_id")
-    private User uploader;
+    private String username;
 
-    private String author;
-
-    private String title;
-
-    private String coverUrl;
-
-    private String description;
-
-    private LocalDate publicDate;
+    private String role;
 
     // 연관 관계
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "uploader")
+    private List<Book> uploadedBooks;
+
+    @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "user")
     private List<Rating> ratings;
 }
